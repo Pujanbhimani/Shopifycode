@@ -1,0 +1,26 @@
+function updateCartCount() {
+    fetch('/cart.js')
+    .then(function(response) {
+        return response.json();
+    })
+    .then(function(cart) {
+        // Update the cart item count on the page
+        const cartCountElement = document.querySelector('.cart-count');
+        cartCountElement.innerHTML = cart.item_count;
+
+        // Get the checkout button
+        const checkoutButton = document.querySelector('.cart__checkout-button');
+
+        if (checkoutButton) {
+            // Add or remove the disabled attribute based on cart item count
+            if (cart.item_count < 4) {
+                checkoutButton.setAttribute('disabled', 'disabled');
+            } else {
+                checkoutButton.removeAttribute('disabled');
+            }
+        }
+    })
+    .catch(function(error) {
+        console.error('Error fetching cart data:', error);
+    });
+}
